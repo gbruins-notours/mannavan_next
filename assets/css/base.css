@@ -1,0 +1,48 @@
+html {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    min-width: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    text-rendering: optimizeLegibility;
+}
+
+html,
+body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: #f3f3f7;
+}
+
+label {
+    margin-bottom: 0;
+}
+label.required:after {
+    color: #b31703 !important;
+    content: " *"
+}
+
+svg {
+    display: inline-block;
+}
+
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity .35s;
+}
+.fade-enter,
+.fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+.quote {
+    padding: 10px 20px;
+    border-left: 5px solid #e4e4e4;
+    font-weight: 300;
+}
+
+[v-cloak] {
+    display: none
+}
