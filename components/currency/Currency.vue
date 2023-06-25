@@ -54,11 +54,11 @@ function onExchangeRatePrice(val) {
 
 
 <template>
-    <!-- <fig-currency
+    <fig-currency
         :price="price"
         :currency="cartCurrency"
         :exchange-rates="exchangeRateTable"
         :apply-exchange-rate="applyExchangeRate"
         :tag="tag"
-        @exchangeRatePrice="onExchangeRatePrice" /> -->
+        @exchangeRatePrice="onExchangeRatePrice" />
 </template>

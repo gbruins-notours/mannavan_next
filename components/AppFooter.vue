@@ -34,21 +34,21 @@ const productSubTypes = computed(() => {
             <div>
                 <h3 class="footer-badge">{{ $t('PRODUCTS') }}</h3>
                 <ul role="list" class="mt-4 space-y-2">
-                    <li v-for="(obj, type) in productSubTypes" :key="obj.id">
+                    <!-- <li v-for="(obj, type) in productSubTypes" :key="obj.id">
                         <nuxt-link
                             :to="{ name: 'productSubType', params: { productSubType: obj.slug } }">{{ $t(type) }}</nuxt-link>
                     </li>
                     <li>
                         <nuxt-link
                             :to="{ name: 'index' }">{{ $t('All') }}</nuxt-link>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
 
             <!-- TERMS -->
             <div class="mt-10 sm:mt-0">
                 <h3 class="footer-badge">{{ $t('TERMS') }}</h3>
-                <ul role="list" class="mt-4 space-y-2">
+                <!-- <ul role="list" class="mt-4 space-y-2">
                     <li>
                         <nuxt-link
                             class="underline"
@@ -70,7 +70,7 @@ const productSubTypes = computed(() => {
                             :to="{name: 'use-of-cookies'}"
                             data-testid="use-of-cookies">{{ $t('Use of Cookies') }}</nuxt-link>
                     </li>
-                </ul>
+                </ul> -->
             </div>
 
             <!-- BREADVAN -->
@@ -78,9 +78,9 @@ const productSubTypes = computed(() => {
                 <h3 class="footer-badge">{{ $t('BREADVAN') }}</h3>
                 <ul role="list" class="mt-4 space-y-2">
                     <li>
-                        <nuxt-link
+                        <!-- <nuxt-link
                             :to="{name: 'contact-us'}"
-                            data-testid="footer-link-contactus">{{ $t('Contact BreadVan') }}</nuxt-link>
+                            data-testid="footer-link-contactus">{{ $t('Contact BreadVan') }}</nuxt-link> -->
                     </li>
                 </ul>
             </div>

@@ -15,15 +15,12 @@ import {
     FigButton,
     FigCurrencySymbol,
     FigUseTime,
-    FigUseCountry
+    FigUseCountry,
+    FigIconLabel
 } from '@notoursllc/figleaf';
 
 const uiStore = useUiStore();
 const cartStore = useCartStore();
-
-console.log("cartStore num_items", cartStore.num_items)
-
-
 
 const defaultExchangeRate = computed(() => {
     return uiStore.exchange_rates?.default || 'USD';
@@ -100,8 +97,12 @@ onMounted(() => {
     <fig-dropdown>
         <template v-slot:toggler>
             <fig-button variant="naked">
-                <!-- <fig-currency-symbol :currency="cartCurrency" /> {{ cartCurrency }} -->
-                CURRENCY: {{  cartCurrency }}
+                <fig-icon-label>
+                    <template v-slot:left>
+                        <fig-currency-symbol :currency="cartCurrency" />
+                    </template>
+                    {{ cartCurrency }}
+                </fig-icon-label>
             </fig-button>
         </template>
 
@@ -109,7 +110,12 @@ onMounted(() => {
             v-for="(rate, idx) in exchangeRates"
             :key="idx"
             @click="onExchangeRateClick(rate)">
-            <fig-currency-symbol :currency="rate" /> {{ rate }}
+            <fig-icon-label>
+                <template v-slot:left>
+                    <fig-currency-symbol :currency="rate" />
+                </template>
+                {{ rate }}
+            </fig-icon-label>
         </fig-dropdown-button>
     </fig-dropdown>
 </template>

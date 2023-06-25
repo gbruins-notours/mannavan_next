@@ -1,45 +1,19 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
+import { ref } from 'vue';
 
-function getInitialState() {
+
+export const useCheckoutStore = defineStore('checkoutStore', () => {
+    
+    const shippingFormIsValid = ref(false);
+    const shippingMethod = ref('1');
+
     return {
-        validations: {
-            shippingForm: false
-        },
-        shippingMethod: '1'
+        shippingFormIsValid,
+        shippingMethod
     }
-}
 
-export const useCheckoutStore = defineStore('checkoutStore', {
-    persist: true,
+}, { persist: true });
 
-    state: () => ({
-        ...getInitialState()
-    }),
-
-    actions: {
-        SHIPPING_FORM_VALID: (isValid) => {
-            this.validations.shippingForm = isValid;
-        },
-    
-        SHIPPING_METHOD: (val) => {
-            this.shippingMethod = val;
-        },
-    
-        RESET: () => {
-            let s = getInitialState();
-
-            Object.keys(s).forEach((key) => {
-                this[key] = s[key];
-            })
-        }
-    },
-
-    getters: {
-        // subTypes: (state) => {
-        //     return state.subTypes;
-        // }
-    },
-});
 
 if (import.meta.hot) {
     import.meta.hot.accept(acceptHMRUpdate(useCheckoutStore, import.meta.hot))

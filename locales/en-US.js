@@ -150,6 +150,7 @@ export default {
     "Create refund": "Create refund",
     "Created": "Created",
     "CREDIT CARD": "CREDIT CARD",
+    "currency": "currency",
     "Custom SKU attributes": "Custom SKU attributes",
     "Customers won’t see this": "Customers won’t see this",
     "customs_country_of_origin_desc": "In most cases, where the product is manufactured",

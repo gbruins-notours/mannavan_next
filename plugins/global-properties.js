@@ -47,8 +47,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         uiStore.$patch(appConfig.data);
     }
 
-    if(!cartStore.cart.id || !shoppingCart?.data) {
-        cartStore.$reset(); // https://pinia.vuejs.org/core-concepts/state.html#resetting-the-state
+    if(!cartStore.id || !shoppingCart?.data) {
+        cartStore.reset(); // https://pinia.vuejs.org/core-concepts/state.html#resetting-the-state
     }
     else {
         cartStore.$patch(shoppingCart?.data); // https://pinia.vuejs.org/core-concepts/state.html#mutating-the-state

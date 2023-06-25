@@ -83,11 +83,10 @@ export default defineNuxtConfig({
 
     plugins: [
         '@/plugins/bugsnag.client.js',
-        '@/plugins/persistedstate.client.js',
         '@/plugins/api.js',
         '@/plugins/i18n.js',
         '@/plugins/global-properties',
-        // '@/plugins/toaster.client.js',
+        '@/plugins/toaster.client.js',
     ],
 
     modules: [
@@ -96,6 +95,7 @@ export default defineNuxtConfig({
         // '@nuxt/devtools', // https://devtools.nuxtjs.org/guide
         '@vite-pwa/nuxt',
         '@pinia/nuxt',
+        '@pinia-plugin-persistedstate/nuxt'
     ],
 
     // https://tailwindcss.nuxtjs.org/getting-started/options/
@@ -106,6 +106,15 @@ export default defineNuxtConfig({
         // config: {},
         injectPosition: 0,
         viewer: true,
+    },
+
+    // https://prazdevs.github.io/pinia-plugin-persistedstate/frameworks/nuxt-3.html#global-options
+    piniaPersistedstate: {
+        cookieOptions: {
+            sameSite: 'strict'
+        },
+        storage: 'cookies', // needs to be cookies because of SSR.  'localStorage' and 'sessonStorage' are client-side only
+        debug: isDev
     },
 
     // Nuxt image config
@@ -138,7 +147,8 @@ export default defineNuxtConfig({
     // https://vite-pwa-org.netlify.app/frameworks/nuxt.html
     pwa: {
         manifest: {
-            lang: 'en'
+            // lang: 'en'
+            lang: 'en-US'
         }
     },
 
@@ -160,18 +170,21 @@ export default defineNuxtConfig({
 
     // build: {
     //     transpile: [
-    //         // 'date-fns',
-    //         // 'date-fns-tz',
-    //         // '@notoursllc/figleaf'
+    //         '@notoursllc/figleaf',
+    //         'date-fns',
+    //         'date-fns-tz',
+    //         'youtube-player'
     //     ]
     // },
 
     // https://nuxt.com/docs/api/configuration/nuxt-config#vite
     vite: {
         optimizeDeps: {
-            exclude: [
+            include: [
+                '@notoursllc/figleaf',
                 'date-fns',
-                'date-fns-tz'
+                'date-fns-tz',
+                'youtube-player'
             ]
         }
     },

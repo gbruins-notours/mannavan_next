@@ -11,7 +11,7 @@
   "dependencies": {
     "@bugsnag/js": "7.20.0",
     "@bugsnag/plugin-vue": "7.19.0",
-    "@notoursllc/figleaf": "1.0.6",
+    "@notoursllc/figleaf": "1.0.10",
     "@nuxtjs/tailwindcss": "6.6.5",
     "@pinia/nuxt": "0.4.8",
     "@stripe/stripe-js": "^1.54.1",
@@ -25,8 +25,8 @@
     "vue-i18n": "9.2.2"
   },
   "devDependencies": {
-    "@nuxt/devtools": "0.6.3",
     "@nuxt/image": "1.0.0-rc.1",
+    "@pinia-plugin-persistedstate/nuxt": "1.1.1",
     "@vite-pwa/nuxt": "0.0.7"
   }
 }
