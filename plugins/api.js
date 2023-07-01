@@ -195,6 +195,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     };
 
 
+    // nuxtApp.api = { ...api };
     nuxtApp.provide('api', { ...api });
     // nuxtApp.provide('$api', { ...api });
 

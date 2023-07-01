@@ -11,6 +11,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const bugsnagVue = Bugsnag.getPlugin('vue')
 
     nuxtApp.vueApp.use(bugsnagVue);
-    nuxtApp.provide('bugsnag', Bugsnag);
+    // nuxtApp.provide('bugsnag', Bugsnag);
+    nuxtApp.bugsnag = Bugsnag;
 });
 

@@ -16,9 +16,12 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
+            // TODO: deprecate this one and use apiBaseUrl instead
             axios: {
                 browserBaseURL: process.env.API_URL
             },
+            
+            apiBaseUrl: process.env.API_URL,
             bugSnagApiKey: process.env.BUG_SNAG_API_KEY,
             cookieSecure: process.env.COOKIE_SECURE || false,
             domainName: process.env.DOMAIN_NAME,
@@ -58,7 +61,7 @@ export default defineNuxtConfig({
             meta: [
                 { charset: 'utf-8' },
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-                { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+                { hid: 'description', name: 'description', content: 'You wear what you are.  Breadvan faith based apparel.' }
             ],
             link: [
                 { rel: 'icon', type: 'image/x-icon', href: '/images/favicon.ico' }
@@ -81,13 +84,13 @@ export default defineNuxtConfig({
 
     telemetry: false,
 
-    plugins: [
-        '@/plugins/bugsnag.client.js',
-        '@/plugins/api.js',
-        '@/plugins/i18n.js',
-        '@/plugins/global-properties',
-        '@/plugins/toaster.client.js',
-    ],
+    // plugins: [
+    //     '@/plugins/bugsnag.client.js',
+    //     '@/plugins/api.js',
+    //     '@/plugins/i18n.js',
+    //     '@/plugins/global-properties',
+    //     '@/plugins/toaster.client.js',
+    // ],
 
     modules: [
         '@nuxtjs/tailwindcss', // https://tailwindcss.nuxtjs.org/getting-started/setup

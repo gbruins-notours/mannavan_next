@@ -6,10 +6,10 @@ import {
 } from '@notoursllc/figleaf';
 
 const route = useRoute();
-const clearToasts = inject('figClearToasts');
+const { $figClearToasts } = useNuxtApp();
 
 watch(route, () => {
-    clearToasts();
+    $figClearToasts();
 });
 </script>
 

@@ -19,8 +19,7 @@ import {
 const uiStore = useUiStore();
 const productStore = useProductStore();
 
-const year = ref(new Date().getFullYear());
-const siteName = ref(uiStore.siteName);
+const year = new Date().getFullYear();
 
 const productSubTypes = computed(() => {
     return productStore.subTypes;
@@ -48,7 +47,7 @@ const productSubTypes = computed(() => {
             <!-- TERMS -->
             <div class="mt-10 sm:mt-0">
                 <h3 class="footer-badge">{{ $t('TERMS') }}</h3>
-                <!-- <ul role="list" class="mt-4 space-y-2">
+                <ul role="list" class="mt-4 space-y-2">
                     <li>
                         <nuxt-link
                             class="underline"
@@ -62,15 +61,15 @@ const productSubTypes = computed(() => {
                     </li>
                     <li>
                         <nuxt-link
-                            :to="{name: 'conditions-of-use'}"
+                            :to="{name: 'conditions'}"
                             data-testid="footer-link-conditions">{{ $t('Conditions of Use') }}</nuxt-link>
                     </li>
                     <li>
                         <nuxt-link
-                            :to="{name: 'use-of-cookies'}"
+                            :to="{name: 'cookies'}"
                             data-testid="use-of-cookies">{{ $t('Use of Cookies') }}</nuxt-link>
                     </li>
-                </ul> -->
+                </ul>
             </div>
 
             <!-- BREADVAN -->
@@ -78,9 +77,9 @@ const productSubTypes = computed(() => {
                 <h3 class="footer-badge">{{ $t('BREADVAN') }}</h3>
                 <ul role="list" class="mt-4 space-y-2">
                     <li>
-                        <!-- <nuxt-link
-                            :to="{name: 'contact-us'}"
-                            data-testid="footer-link-contactus">{{ $t('Contact BreadVan') }}</nuxt-link> -->
+                        <nuxt-link
+                            :to="{name: 'contactus'}"
+                            data-testid="footer-link-contactus">{{ $t('Contact BreadVan') }}</nuxt-link>
                     </li>
                 </ul>
             </div>
@@ -104,7 +103,7 @@ const productSubTypes = computed(() => {
                 </div>
 
                 <div class="text-center md:text-right">
-                    &#169; {{ year }} {{ siteName }}, {{ $t('All Rights Reserved') }}.
+                    &#169; {{ year }} {{ uiStore.siteName }}, {{ $t('All Rights Reserved') }}.
                 </div>
             </fig-content>
 

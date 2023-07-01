@@ -21,6 +21,11 @@ import {
 
 const uiStore = useUiStore();
 const cartStore = useCartStore();
+const { 
+    $bugsnag,
+    $figErrorToast,
+    $api
+} = useNuxtApp();
 
 const defaultExchangeRate = computed(() => {
     return uiStore.exchange_rates?.default || 'USD';
