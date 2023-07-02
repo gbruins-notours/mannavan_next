@@ -51,7 +51,7 @@ async function getCart() {
 
         cart.value = data;
 
-        emit('found', { ...cart.value }
+        emit('found', { ...cart.value })
     }
     catch(err) {
         $figErrorToast({

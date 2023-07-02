@@ -33,9 +33,7 @@ useHead({
         <page-title>{{ $t('Returns / Exchanges') }}</page-title>
 
         <content-card>
-            {{ $t('returns_help')}}
-
-            <div class="mt-6">
+            <div>
                 <div class="font-bold">{{ $t('To return an item:')}}</div>
 
                 <ol class="mt-4 orderedList">

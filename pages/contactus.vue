@@ -5,18 +5,12 @@ export default {
 </script> 
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useVuelidate } from '@vuelidate/core';
-import { required, email } from '@vuelidate/validators';
 import ContentCard from '@/components/ContentCard.vue';
 import {
     FigContent,
-    FigLabelValueGroup,
-    FigLabelValue,
-    FigFormText,
-    FigFormTextarea,
-    FigButton,
+    FigContactUsForm,
     FigOverlay,
     FigIcon
 } from '@notoursllc/figleaf';
@@ -37,23 +31,9 @@ const {
 
 const loading = ref(false);
 const showSuccess = ref(false);
-const form = reactive({
-    name: null,
-    company: null,
-    email: null,
-    message: null,
-});
+const contactUsForm = ref(null);
 
-const validatiorRules = computed(() => {
-    return {
-        name: { required },
-        email: { required, email },
-        message: { required },
-    }
-})
-const v$ = useVuelidate(validatiorRules, form);
-
-async function onSubmit() {
+async function onSubmit(data) {
     try {
         loading.value = true;
 
@@ -61,10 +41,7 @@ async function onSubmit() {
         // await this.$api.tenant.contactUs(this.form);
 
         showSuccess.value = true;
-        form.name = null;
-        form.company = null;
-        form.email = null;
-        form.message = null;
+        contactUsForm.value.reset();
     }
     catch(err) {
         $figErrorToast({
@@ -116,65 +93,9 @@ async function onSubmit() {
 
             <content-card>
                 <fig-overlay :show="loading">
-                    <div class="text-left">
-                        <fig-label-value-group density="lg" block>
-                            <!-- Your name -->
-                            <fig-label-value required>
-                                <template v-slot:label>{{ $t('Your name') }}:</template>
-
-                                <fig-form-text
-                                    v-model="form.name"
-                                    maxlength="100"
-                                    @update:modelValue="v$.$touch()" />
-                                <template v-slot:error v-if="v$.name.$dirty && !v$.name.required">{{ $t('required') }}</template>
-                            </fig-label-value>
-
-                            <!-- Company -->
-                            <fig-label-value>
-                                <template v-slot:label>{{ $t('Company') }}:</template>
-
-                                <fig-form-text
-                                    v-model="form.company"
-                                    maxlength="100" />
-                            </fig-label-value>
-
-                            <!-- Email -->
-                            <fig-label-value required>
-                                <template v-slot:label>{{ $t('Email') }}:</template>
-
-                                <fig-form-text
-                                    v-model="form.email"
-                                    maxlength="100"
-                                    @update:modelValue="v$.$touch()" />
-
-                                <template v-slot:error v-if="v$.email.$dirty && v$.email.$invalid">
-                                    <div v-if="v$.email.required.$invalid">{{ $t('required') }}</div>
-                                    <div v-else-if="v$.email.email.$invalid">{{ $t('invalid email address format') }}</div>
-                                </template>
-                            </fig-label-value>
-
-                            <!-- Message -->
-                            <fig-label-value required>
-                                <template v-slot:label>{{ $t('Message') }}:</template>
-                                
-                                <fig-form-textarea
-                                    v-model="form.message"
-                                    maxlength="10000"
-                                    @update:modelValue="v$.$touch()" />
-
-                                <template v-slot:error v-if="v$.name.$dirty && !v$.message.required">{{ $t('required') }}</template>
-                            </fig-label-value>
-                        </fig-label-value-group>
-
-                        <div class="pt-5">
-                            <fig-button
-                                variant="primary"
-                                @click="onSubmit"
-                                :disabled="v$.$invalid > 0"
-                                block
-                                size="lg">{{ $t('Submit') }}</fig-button>
-                        </div>
-                    </div>
+                    <fig-contact-us-form 
+                        ref="contactUsForm"
+                        @submit="onSubmit" />
                 </fig-overlay>
             </content-card>
         </template>

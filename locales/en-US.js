@@ -437,7 +437,6 @@ export default {
     "Return to cart": "Return to cart",
     "Returns / Exchanges": "Returns / Exchanges",
     "Returns and Exchanges for your order at {sitename}": "Returns and Exchanges for your order at {sitename}",
-    "returns_help": "For help with Exchanging or Returning an item, please contact us at",
     "row": "row",
     "Row label": "Row label",
 
@@ -545,6 +544,7 @@ export default {
     "TERMS": "TERMS",
     "text": "text",
     "Thank you!": "Thank you!",
+    "Thanks for your order from {sitename}": "Thanks for your order from {sitename}",
     "Thanks!": "Thanks!",
     "The address you provided does not seem to be a valid mailing adddress.": "The address you provided does not seem to be a valid mailing adddress.",
     "The email response did not return a success code.": "The email response did not return a success code.",
