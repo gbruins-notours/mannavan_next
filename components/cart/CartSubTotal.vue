@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useCartStore } from '@/stores/cart';
 import { useUiStore } from '@/stores/ui';
 import Currency from '@/components/currency/Currency.vue';
@@ -27,15 +28,19 @@ const emit = defineEmits([
 ]);
 
 const uiStore = useUiStore();
+const { exchange_rates } = storeToRefs(uiStore);
+
 const cartStore = useCartStore();
+const { currency } = storeToRefs(cartStore);
+
 const { cartSubTotal } = FigUseCurrency();
 
 const cartCurrency = computed(() => {
-    return cartStore.currency.value || 'USD';
+    return currency.value || 'USD';
 });
 
 const exchangeRateTable = computed(() => {
-    return uiStore.exchange_rates?.rates || {};
+    return exchange_rates.value?.rates || {};
 });
 
 const exchangeRate = computed(() => {

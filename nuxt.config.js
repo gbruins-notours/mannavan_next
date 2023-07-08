@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+import path from 'path';
 import { presets } from '@notoursllc/figleaf/src/components/nuxtImgBunny/bunnyProvider.js';
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -10,9 +11,14 @@ if(isDev) {
 export default defineNuxtConfig({
     ssr: true,
 
-    // devtools: {
-    //     enabled: true
-    // },
+    devtools: {
+        enabled: true
+    },
+
+    alias: {
+        // '@': path.resolve(__dirname, '/'),
+        assets: '<rootDir>/assets</rootDir>',
+    },
 
     runtimeConfig: {
         public: {
@@ -22,6 +28,7 @@ export default defineNuxtConfig({
             },
             
             apiBaseUrl: process.env.API_URL,
+            apiBasicAuth: Buffer.from(`${process.env.TENANT_ID}:${process.env.TENANT_API_KEY}`).toString('base64'),
             bugSnagApiKey: process.env.BUG_SNAG_API_KEY,
             cookieSecure: process.env.COOKIE_SECURE || false,
             domainName: process.env.DOMAIN_NAME,
@@ -95,7 +102,7 @@ export default defineNuxtConfig({
     modules: [
         '@nuxtjs/tailwindcss', // https://tailwindcss.nuxtjs.org/getting-started/setup
         '@nuxt/image', // https://v1.image.nuxtjs.org/get-started
-        // '@nuxt/devtools', // https://devtools.nuxtjs.org/guide
+        '@nuxt/devtools', // https://devtools.nuxtjs.org/guide
         '@vite-pwa/nuxt',
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt'
@@ -121,7 +128,7 @@ export default defineNuxtConfig({
     },
 
     // Nuxt image config
-    // https://image.nuxtjs.org/api/options/
+    // https://image.nuxtjs.org/configuration
     image: {
         providers: {
             customProvider: {

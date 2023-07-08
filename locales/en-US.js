@@ -316,6 +316,7 @@ export default {
     "Oops we could not find the order you are looking for.": "Oops we could not find the order you are looking for.",
     "Order confirmation email sent successfully": "Order confirmation email sent successfully",
     "Option deleted successfully": "Option deleted successfully",
+    "Order details for your order from {sitename}": "Order details for your order from {sitename}",
     "Option saved successfully": "Option saved successfully",
     "Option set added successfully": "Option set added successfully",
     "Option set updated successfully": "Option set updated successfully",

@@ -1,30 +1,47 @@
+import { storeToRefs } from 'pinia';
 import isObject from 'lodash-es/isObject.js';
-
+import { useApiFetch } from '@/composables/useApiFetch.js';
 
 export default defineNuxtPlugin(async (nuxtApp) => {
     const cartStore = useCartStore();
+    const { id: cartId } = storeToRefs(cartStore);
+
     const productStore = useProductStore();
     const uiStore = useUiStore();
 
     const promises = [
-        nuxtApp.$api.masterType.list({
-            object: 'product_type',
-            published: true,
-            _sort: 'ordinal:asc'
+        useApiFetch('/master_types', {
+            params: {
+                object: 'product_type',
+                published: true,
+                _sort: 'ordinal:asc',
+                // _page: 1,
+                // _pageSize: 100
+            }
         }),
-        nuxtApp.$api.masterType.list({
-            object: 'product_sub_type',
-            published: true,
-            _sort: 'ordinal:asc'
+        useApiFetch('/master_types', {
+            params: {
+                object: 'product_sub_type',
+                published: true,
+                _sort: 'ordinal:asc'
+            }
+        }),        
+        useApiFetch('/product/accent_messages', {
+            params: {
+            }
         }),
-        nuxtApp.$api.product.accentMessage.list(),
-        nuxtApp.$api.account.appConfig()
+        useApiFetch('/account/app_config', {
+            params: {
+            }
+        }),
     ];
 
-    if(cartStore.id) {
+    if(cartId.value) {
         promises.push(
-            nuxtApp.$api.cart.get({
-                id: cartStore.id
+            useApiFetch('/cart', {
+                params: {
+                    id: cartId.value
+                }
             })
         );
     }
@@ -34,23 +51,30 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         productSubTypes,
         productAccentMessages,
         appConfig,
-        shoppingCart
+        cart
     ] = await Promise.all(promises);
 
-    productStore.setProductTypes(productTypes?.data);
-    productStore.setProductSubTypes(productSubTypes?.data);
-    productStore.setProductSkuAccentMessages(productAccentMessages?.data);
+    console.log("productTypes data", productTypes.data.value.data);
+    console.log("productSubTypes data", productSubTypes.data.value.data);
+    console.log("productAccentMessages data", productAccentMessages.data.value.data);
+    console.log("appConfig data", appConfig.data.value.data);
+    console.log("cart data", cart?.data);
 
-    // console.log("APP CONFIG", appConfig.data.exchange_rates);
 
-    if(isObject(appConfig?.data)) {
-        uiStore.$patch(appConfig.data);
+    productStore.setProductTypes(productTypes.data.value?.data);
+    productStore.setProductSubTypes(productSubTypes.data.value?.data);
+    productStore.setProductSkuAccentMessages(productAccentMessages.data.value?.data);
+
+    if(isObject(appConfig.data.value?.data)) {
+        uiStore.$patch({
+            appConfig: appConfig.data.value.data
+        })
     }
 
-    if(!cartStore.id || !shoppingCart?.data) {
+    if(!cartId.value || !cart.data.value?.data) {
         cartStore.reset(); // https://pinia.vuejs.org/core-concepts/state.html#resetting-the-state
     }
     else {
-        cartStore.$patch(shoppingCart?.data); // https://pinia.vuejs.org/core-concepts/state.html#mutating-the-state
+        cartStore.$patch(cart.data.value?.data); // https://pinia.vuejs.org/core-concepts/state.html#mutating-the-state
     }
 });

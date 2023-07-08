@@ -5,7 +5,8 @@ export default {
 </script> 
 
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { useUiStore } from '@/stores/ui';
 import { useProductStore } from '@/stores/product';
@@ -17,17 +18,15 @@ import {
 } from '@notoursllc/figleaf';
 
 const { t } = useI18n();
+
 const uiStore = useUiStore();
+const { brandName } = storeToRefs(uiStore);
+
 const productStore = useProductStore();
+const { subTypes } = storeToRefs(productStore);
+
 // const routeParams = useRoute().params;
 const route = useRoute();
-
-useHead({
-    title: productTypeName.value,
-    meta: [
-        { name: 'description', content: `${productTypeName.value} by ${uiStore.brandName}` }
-    ]
-});
 
 const productTypeName = computed(() => {
     return t(subTypeData.value.name);
@@ -37,11 +36,11 @@ const subTypeData = computed(() => {
     let data = {};
 
     if(route.params.productSubType) {
-        const subTypes = productStore.subTypes.value;
+        const types = subTypes.value;
 
-        Object.keys(subTypes).forEach((id) => {
-            if(subTypes[id].slug === route.params.productSubType.trim()) {
-                data = subTypes[id];
+        Object.keys(types).forEach((id) => {
+            if(types[id].slug === route.params.productSubType.trim()) {
+                data = types[id];
             }
         });
     }
@@ -64,9 +63,21 @@ const queryParams = computed(() => {
     return searchConfig;
 })
 
-const { data: products, error, pending } = useApiFetch({
-    url: '/products',
-    params: queryParams.value
+// test: does this work?
+const { data: products, pending, error } = await useAsyncData(() => {
+    console.log("IN useAsyncData");
+
+    return useApiFetch({
+        url: '/products',
+        params: queryParams.value
+    });
+});
+
+useHead({
+    title: productTypeName.value,
+    meta: [
+        { name: 'description', content: `${productTypeName.value} by ${brandName.value}` }
+    ]
 });
 </script>
 

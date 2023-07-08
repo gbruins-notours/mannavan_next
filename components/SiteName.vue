@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useUiStore } from '@/stores/ui';
 
 const props = defineProps({
@@ -16,13 +17,14 @@ const props = defineProps({
 });
 
 const uiStore = useUiStore();
+const { siteName } = storeToRefs(uiStore);
 
-const siteName = computed(() => {
-    const name = uiStore.siteName || '';
+const label = computed(() => {
+    const name = siteName.value || '';
     return props.uppercase ? name.toUpperCase() : name;
 });
 </script>
 
 <template>
-    <span>{{ siteName }}</span>
+    <span>{{ label }}</span>
 </template>

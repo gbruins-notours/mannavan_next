@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import { useRuntimeConfig } from "#app";
+import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { useUiStore } from '@/stores/ui';
 import PageTitle from '@/components/PageTitle';
@@ -16,13 +17,16 @@ import {
 } from '@notoursllc/figleaf';
 
 const { t } = useI18n();
+
 const uiStore = useUiStore();
+const { siteName, infoEmailAddress } = storeToRefs(uiStore);
+
 const config = useRuntimeConfig();
 
 useHead({
     title: t('Returns / Exchanges'),
     meta: [
-        { name: 'description', content: t('Returns and Exchanges for your order at {sitename}', {sitename: uiStore.siteName}) }
+        { name: 'description', content: t('Returns and Exchanges for your order at {sitename}', {sitename: siteName.value}) }
     ]
 });
 </script>
@@ -56,7 +60,7 @@ useHead({
 
             <div class="mt-6">
                 <h2 class="font-bold">{{ $t('Questions?') }}</h2>
-                <div><a :href="`mailto:${uiStore.infoEmailAddress}`">{{ uiStore.infoEmailAddress }}</a></div>
+                <div><a :href="`mailto:${infoEmailAddress}`">{{ infoEmailAddress }}</a></div>
             </div>
         </content-card>
     </fig-content>

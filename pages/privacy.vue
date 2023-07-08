@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 import { useUiStore } from '@/stores/ui';
 import PageTitle from '@/components/PageTitle.vue';
 import ContentCard from '@/components/ContentCard.vue';
@@ -14,12 +15,14 @@ import BrandName from '@/components/BrandName.vue';
 import { FigContent } from '@notoursllc/figleaf';
 
 const { t } = useI18n();
+
 const uiStore = useUiStore();
+const { siteName, infoEmailAddress } = storeToRefs(uiStore);
 
 useHead({
     title: t('Privacy Notice'),
     meta: [
-        { name: 'description', content: t('Privacy notice for {sitename}', {sitename: uiStore.siteName}) }
+        { name: 'description', content: t('Privacy notice for {sitename}', {sitename: siteName.value}) }
     ]
 });
 </script>
@@ -255,7 +258,7 @@ useHead({
                 <div>
                     You can check your information to verify, update, or correct it, and to have any obsolete information removed. You can also ask to review
                     any of the information that we have retained, how we have used it, and to whom we have disclosed it at
-                    any time by contacting us at {{ uiStore.infoEmailAddress }}. Subject to certain exceptions prescribed by law, and provided
+                    any time by contacting us at {{ infoEmailAddress }}. Subject to certain exceptions prescribed by law, and provided
                     we can authenticate your identity, you will be given reasonable access to your personal information, and will be entitled to challenge
                     the accuracy and completeness of the information and to have it amended as appropriate.
                 </div>
@@ -280,7 +283,7 @@ useHead({
                 <h2>HOW CAN I CONTACT <site-name :uppercase="true" />?</h2>
                 <div>
                     <site-name /> is responsible for all personal information under its control. If you have any questions, concerns or
-                    complaints about the privacy policies please contact us at {{ uiStore.infoEmailAddress }}
+                    complaints about the privacy policies please contact us at {{ infoEmailAddress }}
                 </div>
 
                 <div class="mt-6">

@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { useCartStore } from '@/stores/cart';
 import CheckoutDeliveryEstimate  from '@/components/cart/checkout/CheckoutDeliveryEstimate.vue';
@@ -34,7 +35,10 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+
 const cartStore = useCartStore();
+const { shippingRateTotal, shippingRateEstimatedDeliveryDate } = storeToRefs(cartStore);
+
 const { 
     $bugsnag,
     $figErrorToast,
@@ -121,11 +125,11 @@ onMounted(() => {
             <template v-if="showSelectedRate">
                 <template v-if="cart.selected_shipping_rate">
                     <div class="inline-block text-black">
-                        <currency :price="cartStore.shippingRateTotal" />
+                        <currency :price="shippingRateTotal" />
                     </div>
                     <div class="inline-block text-gray-500 pl-3">
                         <checkout-delivery-estimate
-                            :arrival-date="cartStore.shippingRateEstimatedDeliveryDate" />
+                            :arrival-date="shippingRateEstimatedDeliveryDate" />
                     </div>
                 </template>
             </template>

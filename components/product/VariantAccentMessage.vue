@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import isObject from 'lodash-es/isObject.js';
 import { isUuid4 } from '@/utils/common.js';
 import { useProductStore } from '@/stores/product.js';
@@ -20,6 +21,7 @@ const props = defineProps({
 });
 
 const productStore = useProductStore();
+const { skuAccentMessages } = storeToRefs(productStore);
 
 const accentMessage = computed(() => {
     const now = Date.now();
@@ -30,7 +32,7 @@ const accentMessage = computed(() => {
         // message from the list of all messages in Vuex
 
         if(isUuid4(props.variant.accent_message_id)) {
-            msg = productStore.skuAccentMessages.value[props.variant.accent_message_id] || null;
+            msg = skuAccentMessages.value[props.variant.accent_message_id] || null;
         }
         else {
             msg = props.variant.accent_message_id;

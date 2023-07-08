@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useProductStore } from '@/stores/product';
 import { useCartStore } from '@/stores/cart';
 import { useUiStore } from '@/stores/ui';
@@ -17,20 +18,17 @@ import {
 
 const route = useRoute();
 const router = useRouter();
+
 const productStore = useProductStore();
-const cartStore = useCartStore();
+const { subTypes } = storeToRefs(productStore);
+
 const uiStore = useUiStore();
+
+const cartStore = useCartStore();
+const { num_items: numCartItems } = storeToRefs(cartStore);
 
 const inCheckoutFlow = computed(() => {
     return route.path?.substring(0, 14) === '/cart/checkout';
-});
-
-const productSubTypes = computed(() => {
-    return productStore.subTypes;
-});
-
-const numCartItems = computed(() => {
-    return cartStore.num_items;
 });
 
 function onCartButtonClick() {
@@ -72,7 +70,7 @@ function onLogoClick() {
         <template v-slot:middle>
             <nav>
                 <NuxtLink
-                    v-for="(obj, type) in productSubTypes"
+                    v-for="(obj, type) in subTypes"
                     :key="obj.id"
                     :to="{ name: 'productSubType', params: { productSubType: obj.slug } }"
                     class="bv-header-nav-item font-semibold relative text-center mr-5"

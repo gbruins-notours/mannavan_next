@@ -7,10 +7,12 @@ export default {
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 import { useUiStore } from '@/stores/ui';
 import isObject from 'lodash-es/isObject.js';
 import AppIcon from '@/components/AppIcon.vue';
 import CartReceipt from '@/components/cart/CartReceipt.vue';
+import '@/assets/css/animations.css';
 import {
     FigIcon,
     FigContent,
@@ -18,21 +20,22 @@ import {
 } from '@notoursllc/figleaf';
 
 const { t } = useI18n();
-const uiStore = useUiStore();
 const route = useRoute();
 
+const uiStore = useUiStore();
+const { siteName } = storeToRefs(uiStore);
+
 const shippingEmail = ref(null);
-const ready = ref(true);
-// const ready = ref(false);
+const ready = ref(false);
 
 useHead({
     title: t('We have a winner!'),
     meta: [
-        { name: 'description', content: t('Thanks for your order from {sitename}', {sitename: uiStore.siteName}) }
+        { name: 'description', content: t('Thanks for your order from {sitename}', {sitename: siteName.value}) }
     ],
-    link: [
-        { rel: 'stylesheet', href: '/css/animations.css' }
-    ]
+    // link: [
+    //     { rel: 'stylesheet', href: '/css/animations.css' }
+    // ]
 });
 
 function onCartFound(cart) {

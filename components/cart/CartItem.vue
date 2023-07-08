@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import { ref, reactive, computed, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import isObject from 'lodash-es/isObject.js';
 import { useI18n } from 'vue-i18n';
 import { useUiStore } from '@/stores/ui';
@@ -63,7 +64,10 @@ const {
 } = useNuxtApp();
 
 const uiStore = useUiStore();
+const { appConfig } = storeToRefs(uiStore);
+
 const cartStore = useCartStore();
+const { id: cartId } = storeToRefs(cartStore);
 
 const cartItem = ref({});
 const sizeOptions = ref([]);
@@ -87,7 +91,7 @@ const coverImage = computed(() => {
 
 const quantityOptions = computed(() => {
     const opts = [];
-    const max = uiStore.appConfig.CART_PRODUCT_QUANTITY_LIMIT || 20;
+    const max = appConfig.value.CART_PRODUCT_QUANTITY_LIMIT || 20;
 
     for(let i=1; i<=max; i++) {
         opts.push(
@@ -154,7 +158,7 @@ async function updateCartItem() {
         isLoading.value = true;
 
         const { data } = await $api.cart.item.update({
-            cart_id: cartStore.id.value,
+            cart_id: cartId.value,
             id: cartItem.value.id,
             product_variant_sku_id: cartItem.value.product_variant_sku?.id,
             qty: cartItem.value.qty,
@@ -163,9 +167,7 @@ async function updateCartItem() {
 
         emit('updated');
 
-        cartStore.$patch({
-            ...data
-        });
+        cartStore.$patch(data);
 
         init();
     }

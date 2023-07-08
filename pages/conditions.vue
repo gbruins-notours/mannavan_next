@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 import { useUiStore } from '@/stores/ui';
 import ContentCard from '@/components/ContentCard.vue';
 import { FigContent } from '@notoursllc/figleaf';
@@ -13,12 +14,14 @@ import PageTitle from '@/components/PageTitle';
 import BrandName from '@/components/BrandName';
 
 const { t } = useI18n();
+
 const uiStore = useUiStore();
+const { siteName, siteUrlShort, infoEmailAddress } = storeToRefs(uiStore);
 
 useHead({
     title: t('Conditions of Use'),
     meta: [
-        { name: 'description', content: t('Conditions of use for {sitename}', {sitename: uiStore.siteName}) }
+        { name: 'description', content: t('Conditions of use for {sitename}', {sitename: siteName.value}) }
     ]
 });
 </script>
@@ -32,7 +35,7 @@ useHead({
             <div class="priv">
                 <div>
                     Welcome to the <brand-name /> website, operated by Not Ours, LLC. (<brand-name />) and located at
-                    {{ uiStore.siteUrlShort }} (the "Site"). The following terms and conditions (“Terms”) govern your use of the Site.
+                    {{ siteUrlShort }} (the "Site"). The following terms and conditions (“Terms”) govern your use of the Site.
                 </div>
 
                 <div class="mt-6">
@@ -255,7 +258,7 @@ useHead({
                 <h2>10. Complaint Procedures</h2>
                 <div>
                     If you believe that any content or postings on this Site violates your intellectual property or other rights, please
-                    notify <brand-name /> by email at {{ uiStore.infoEmailAddress }} with a comprehensive detailed message setting forth the following
+                    notify <brand-name /> by email at {{ infoEmailAddress }} with a comprehensive detailed message setting forth the following
                     information: (a) your name and the name of your company, if any; (b) your contact information, including your email address;
                     (c) the nature and substance of your complaint, the specific rights at issue, and your basis for making the complaint, including
                     the content or posting that is objectionable; and (d) the following statement: “The statements, representations, and assertions

@@ -6,18 +6,21 @@ export default {
 
 <script setup>
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 import { useUiStore } from '@/stores/ui';
 import PageTitle from '@/components/PageTitle';
 import ContentCard from '@/components/ContentCard.vue';
 import { FigContent } from '@notoursllc/figleaf';
 
 const { t } = useI18n();
+
 const uiStore = useUiStore();
+const { siteName } = storeToRefs(uiStore);
 
 useHead({
     title: t('Use of Cookies'),
     meta: [
-        { name: 'description', content: t('Use of cookies on {sitename}', {sitename: uiStore.siteName}) }
+        { name: 'description', content: t('Use of cookies on {sitename}', {sitename: siteName.value}) }
     ]
 });
 </script>

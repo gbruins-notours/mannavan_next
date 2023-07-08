@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import { computed, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import isString from 'lodash-es/isString.js'
 import { useUiStore } from '@/stores/ui';
 import { useCartStore } from '@/stores/cart';
@@ -20,7 +21,11 @@ import {
 } from '@notoursllc/figleaf';
 
 const uiStore = useUiStore();
+const { exchange_rates } = storeToRefs(uiStore);
+
 const cartStore = useCartStore();
+const { id: cartId, currency } = storeToRefs(cartStore);
+
 const { 
     $bugsnag,
     $figErrorToast,
@@ -28,16 +33,16 @@ const {
 } = useNuxtApp();
 
 const defaultExchangeRate = computed(() => {
-    return uiStore.exchange_rates?.default || 'USD';
+    return exchange_rates.value?.default || 'USD';
 });
 
 const cartCurrency = computed(() => {
-    const currency = cartStore.currency || defaultExchangeRate.value;
-    return isString(currency) ? currency.toUpperCase() : '';
+    const c = currency.value || defaultExchangeRate.value;
+    return isString(c) ? c.toUpperCase() : '';
 });
 
 const exchangeRates = computed(() => {
-    const rates = uiStore.exchange_rates?.rates || {};
+    const rates = exchange_rates.value?.rates || {};
     let filteredRates = {};
 
     if(rates && cartCurrency) {
@@ -52,21 +57,20 @@ async function onExchangeRateClick(val) {
     if(exchangeRates.value.includes(val)) {
         cartStore.$patch({
             currency: val
-        }); 
+        });
 
-        const cartId = cartStore.id;
-
-        if(cartId) {
+        if (cartId.value) {
             try {
                 const { data } = await $api.cart.currency({
-                    id: cartId,
+                    id: cartId.value,
                     currency: val
                 });
 
                 await Promise.all([
                     cartStore.$patch(data.cart),
-                    uiStore.$patch((state) => {
-                        state.exchange_rates = data.exchange_rates;
+
+                    uiStore.$patch({
+                        exchange_rates: data.exchange_rates
                     })
                 ]);
             }
@@ -78,23 +82,23 @@ async function onExchangeRateClick(val) {
 }
 
 onMounted(() => {
-        // Set the cart currency to the currency based on the browser's timezone
-        // if the cart currency is not already set
-        if(!cartStore.currency) {
-            const { getCountryFromTimezone } = FigUseTime();
-            const { getCountryCodeToCurrencyCodeMap } = FigUseCountry();
+    // Set the cart currency to the currency based on the browser's timezone
+    // if the cart currency is not already set
+    if(!currency.value) {
+        const { getCountryFromTimezone } = FigUseTime();
+        const { getCountryCodeToCurrencyCodeMap } = FigUseCountry();
 
-            const tz = getCountryFromTimezone();
-            const countryToCurrencyMap = getCountryCodeToCurrencyCodeMap();
-            const currency = countryToCurrencyMap[tz];
-            const rates = uiStore.exchange_rates?.rates || {};
+        const tz = getCountryFromTimezone();
+        const countryToCurrencyMap = getCountryCodeToCurrencyCodeMap();
+        const cur = countryToCurrencyMap[tz];
+        const rates = exchange_rates.value?.rates || {};
 
-            if(currency && rates[currency]) {
-                cartStore.$patch({
-                    currency: currency
-                }); 
-            }
+        if(cur && rates[cur]) {
+            cartStore.$patch({
+                currency: cur
+            });
         }
+    }
 });
 </script>
 

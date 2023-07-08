@@ -4,11 +4,11 @@ import { ref, computed } from 'vue';
 
 export const useCartStore = defineStore('cartStore', () => {
 
+    const id = ref(123);
     const created_at = ref(null);
     const updated_at = ref(null);
     const currency = ref(null);
     const grand_total = ref(null);
-    const id = ref(null);
     const num_items = ref(0);
     const sales_tax = ref(null);
     const shipping_total = ref(null);
@@ -46,11 +46,12 @@ export const useCartStore = defineStore('cartStore', () => {
     });
 
     function reset() {
+        // id.value = null;
+        id.value = 123;
         created_at.value = null;
         updated_at.value = null;
         currency.value = null;
         grand_total.value = null;
-        id.value = null;
         num_items.value = 0;
         sales_tax.value = null;
         shipping_total.value = null;
@@ -60,11 +61,11 @@ export const useCartStore = defineStore('cartStore', () => {
     }
 
     return {
+        id,
         created_at,
         updated_at,
         currency,
         grand_total,
-        id,
         num_items,
         sales_tax,
         shipping_total,

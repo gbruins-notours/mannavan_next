@@ -5,17 +5,16 @@ export default {
 </script> 
 
 <script setup>
-import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useUiStore } from '@/stores/ui';
 import { useProductStore } from '@/stores/product';
 import { FigSlideover } from '@notoursllc/figleaf';
 
 const uiStore = useUiStore();
-const productStore = useProductStore();
+const { sidebarOpened } = storeToRefs(uiStore);
 
-const productSubTypes = computed(() => {
-    return productStore.subTypes;
-});
+const productStore = useProductStore();
+const { subTypes } = storeToRefs(productStore);
 
 function onLinkClick(e) {
     e.preventDefault;
@@ -36,12 +35,12 @@ onMounted(() => {
 
 <template>
     <fig-slideover
-        :opened="uiStore.sidebarOpened"
+        :opened="sidebarOpened"
         @close="closeSidebar"
         class="bg-gray-800">
 
         <nav class="px-10 w-full block">
-            <div v-for="(obj, type) in productSubTypes" :key="obj.id" class="my-4">
+            <div v-for="(obj, type) in subTypes" :key="obj.id" class="my-4">
                 <!-- <nuxt-link
                     :to="{ name: 'productSubType', params: { productSubType: obj.slug } }"
                     class="slideover-link"

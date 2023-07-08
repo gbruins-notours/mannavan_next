@@ -5,7 +5,7 @@ export default {
 </script> 
 
 <script setup>
-import { computed, ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useUiStore } from '@/stores/ui';
 import { useProductStore } from '@/stores/product';
 import {
@@ -17,13 +17,12 @@ import {
 
 
 const uiStore = useUiStore();
+const { siteName } = storeToRefs(uiStore);
+
 const productStore = useProductStore();
+const { subTypes } = storeToRefs(productStore);
 
 const year = new Date().getFullYear();
-
-const productSubTypes = computed(() => {
-    return productStore.subTypes;
-});
 </script>
 
 <template>
@@ -33,14 +32,14 @@ const productSubTypes = computed(() => {
             <div>
                 <h3 class="footer-badge">{{ $t('PRODUCTS') }}</h3>
                 <ul role="list" class="mt-4 space-y-2">
-                    <!-- <li v-for="(obj, type) in productSubTypes" :key="obj.id">
+                    <li v-for="(obj, type) in subTypes" :key="obj.id">
                         <nuxt-link
                             :to="{ name: 'productSubType', params: { productSubType: obj.slug } }">{{ $t(type) }}</nuxt-link>
                     </li>
                     <li>
                         <nuxt-link
                             :to="{ name: 'index' }">{{ $t('All') }}</nuxt-link>
-                    </li> -->
+                    </li>
                 </ul>
             </div>
 
@@ -103,7 +102,7 @@ const productSubTypes = computed(() => {
                 </div>
 
                 <div class="text-center md:text-right">
-                    &#169; {{ year }} {{ uiStore.siteName }}, {{ $t('All Rights Reserved') }}.
+                    &#169; {{ year }} {{ siteName }}, {{ $t('All Rights Reserved') }}.
                 </div>
             </fig-content>
 
